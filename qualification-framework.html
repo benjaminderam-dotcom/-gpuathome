@@ -5,6 +5,8 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Qualification Framework | GPUAtHome</title>
 <meta content="Le système d'instruction propriétaire GPUAtHome : un référentiel, un logiciel qui l'applique, des preuves, des règles de décision et des verrous, pour évaluer objectivement la capacité d'un bâtiment existant à accueillir des infrastructures de calcul IA." name="description"/>
+<link href="https://gpuathome.com/qualification-framework.html" rel="canonical"/>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Organization","name":"GPUAtHome","url":"https://gpuathome.com/"}</script>
 <meta content="website" property="og:type"/>
 <meta content="https://gpuathome.com/qualification-framework.html" property="og:url"/>
 <meta content="Qualification Framework | GPUAtHome" property="og:title"/>
@@ -23,10 +25,15 @@
   #qfReplayBtn:hover{border-color:var(--border-strong,rgba(103,232,249,.34));color:var(--cyan,#67e8f9);}
 </style>
 <!-- Privacy-friendly analytics by Plausible -->
-<script async src="https://plausible.io/js/pa-NQ81xyQ6t1IffKp8BdThk.js"></script>
 <script>
   window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
-  plausible.init()
+  if (localStorage.plausible_ignore !== 'true') {
+    plausible.init();
+    var pa=document.createElement('script');
+    pa.async=true;
+    pa.src='https://plausible.io/js/pa-NQ81xyQ6t1IffKp8BdThk.js';
+    document.head.appendChild(pa);
+  }
 </script>
 </head>
 <body>
