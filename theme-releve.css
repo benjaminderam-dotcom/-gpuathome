@@ -1,0 +1,556 @@
+/* =========================================================
+   GPUAtHome — theme-releve.css
+   Surcouche « Le relevé ». Chargée APRÈS toutes les autres feuilles.
+   Retirer la balise <link> restaure intégralement l'apparence
+   précédente pour toute la partie CSS.
+
+   Doctrine reprise d'impact.css et conservée :
+   mono = donnée mesurable · sans-serif = affirmation.
+   Les valeurs chiffrées restent donc en IBM Plex Mono ;
+   Plex Sans Condensed est réservé aux titres et aux chiffres
+   monumentaux.
+   ========================================================= */
+
+/* ─── 1. TOKENS ──────────────────────────────────────────────────── */
+
+:root {
+  --bg: #050914;
+  --bg-soft: #08101f;
+  --bg-card: rgba(255, 255, 255, 0.028);
+
+  --rule: rgba(140, 180, 235, 0.14);
+  --rule-strong: rgba(140, 180, 235, 0.30);
+  --border: rgba(140, 180, 235, 0.14);
+  --border-strong: rgba(140, 180, 235, 0.30);
+
+  --statut-mesure: #67e8f9;
+  --statut-obtenu: #4ade80;
+  --statut-projet: #fbbf24;
+
+  --planche-bg: #e7eaf0;
+  --planche-bg-2: #dde2ea;
+  --planche-ink: #0a1020;
+  --planche-muted: #3d4759;
+  --planche-rule: rgba(10, 16, 32, 0.16);
+  --planche-rule-strong: rgba(10, 16, 32, 0.34);
+  --planche-mesure: #0e7490;
+  --planche-obtenu: #15803d;
+  --planche-projet: #a16207;
+
+  --font-display: "IBM Plex Sans Condensed", "IBM Plex Sans", Arial, sans-serif;
+  --font-body: "IBM Plex Sans", Arial, sans-serif;
+  --font-mono: "IBM Plex Mono", "SFMono-Regular", Menlo, monospace;
+
+  --space-chapter: 180px;
+  --space-section: 120px;
+  --space-block: 64px;
+  --gutter: max(7%, calc((100% - 1400px) / 2));
+
+  --radius: 2px;
+  --tick: 11px;
+
+  --shadow: none;
+  --shadow-raised: none;
+}
+
+/* ─── 2. TYPOGRAPHIE ─────────────────────────────────────────────── */
+
+body { font-family: var(--font-body); line-height: 1.62; }
+
+h1 {
+  font-family: var(--font-display); font-weight: 500;
+  font-size: clamp(2.6rem, 6.2vw, 5rem);
+  line-height: 1.02; letter-spacing: -0.02em;
+}
+.hero h1 { font-size: clamp(2.6rem, 6.2vw, 5rem); }
+
+h1 .h1-key {
+  font-weight: 600;
+  border-bottom: 2px solid var(--statut-mesure);
+  padding-bottom: 0.06em;
+}
+
+h2 {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(2.1rem, 4.4vw, 3.6rem);
+  line-height: 1.04; letter-spacing: -0.015em;
+}
+
+/* Sous-section : non condensé, pour rompre avec le niveau chapitre */
+h3 {
+  font-family: var(--font-body); font-weight: 600;
+  font-size: 1.18rem; line-height: 1.35; letter-spacing: 0;
+}
+
+/* Doctrine impact.css conservée et étendue */
+.metric,
+.stats strong,
+.cot strong {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* ─── 3. HERO ────────────────────────────────────────────────────── */
+
+.hero {
+  min-height: 92vh;
+  grid-template-columns: 1fr 34%;
+  grid-template-areas:
+    "top    g1"
+    "bottom g1"
+    "cot    cot";
+  align-items: center;
+  column-gap: 56px;
+  row-gap: 24px;
+  padding-bottom: 0;
+  background:
+    linear-gradient(160deg, #050914 0%, #08101f 55%, #04070f 100%),
+    radial-gradient(circle at 72% 42%, rgba(103, 232, 249, 0.10), transparent 46%);
+}
+
+/* Eyebrow — poids graphique PLAFONNÉ à celui d'avant refonte.
+   La pilule est retirée, ce qui DIMINUE son emprise. Ne jamais
+   augmenter corps, interlettrage, ni ajouter de filet : la nuance
+   que le site apporte au mot « distribuée » se situe ~4 écrans
+   plus bas (voir #reuse-scope). */
+.hero .badge {
+  margin-bottom: 12px;
+  padding: 0;
+  border: none;
+  background: none;
+  border-radius: 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+}
+
+.hero .subtitle { max-width: 640px; font-size: 1.06rem; }
+
+/* Les deux lignes de preuve restantes */
+.hero-badges {
+  display: flex; flex-direction: column; align-items: flex-start;
+  gap: 9px; margin-top: 26px;
+}
+.hero-badge {
+  position: relative;
+  padding: 0 0 0 18px;
+  border: none; background: none; border-radius: 0;
+  font-size: 0.95rem; color: var(--muted);
+  animation: none;
+}
+.hero-badge::before {
+  content: ""; position: absolute; left: 0; top: 0.62em;
+  width: 6px; height: 6px; background: var(--statut-obtenu);
+}
+.hero-badge:hover { background: none; border: none; transform: none; }
+
+.hero-actions { margin-top: 30px; }
+
+/* ── Dessin G1 : preuve d'existence physique, jamais le sujet ── */
+.hero-g1 { grid-area: g1; align-self: center; position: relative; z-index: 1; }
+.hero-g1 svg { width: 100%; height: auto; display: block; }
+
+.hero-g1 [data-draw] {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.70;
+}
+
+.hero-g1-label {
+  margin-bottom: 14px;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  color: var(--muted-2);
+}
+
+.hero-g1-caption {
+  display: flex; align-items: flex-start; gap: 9px;
+  margin-top: 24px; padding: 0; border: none;
+  font-family: var(--font-mono); font-size: 0.7rem;
+  line-height: 1.5; color: var(--muted-2);
+}
+.hero-g1-caption::before {
+  content: ""; flex: 0 0 6px; width: 6px; height: 6px;
+  margin-top: 0.45em; background: var(--statut-obtenu);
+}
+
+/* ── Bande de cotation ── */
+.hero-cotation {
+  grid-area: cot; align-self: end;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  margin-top: 56px;
+  border-top: 1px solid var(--rule);
+}
+.hero-cotation .cot {
+  padding: 22px 26px 30px;
+  border-left: 1px solid var(--rule);
+}
+.hero-cotation .cot:first-child { border-left: none; padding-left: 0; }
+
+.hero-cotation .cot strong {
+  display: block;
+  font-size: clamp(1.7rem, 2.6vw, 2.5rem);
+  line-height: 1.1; color: var(--text); white-space: nowrap;
+}
+.hero-cotation .cot span {
+  display: block; margin-top: 8px; max-width: 230px;
+  font-size: 0.8rem; line-height: 1.45; color: var(--muted-2);
+}
+
+/* ─── 4. AXE DE COTATION ET INDEX DE SECTION ─────────────────────── */
+
+.section[data-index] { position: relative; }
+
+.section[data-index]::before {
+  content: ""; position: absolute;
+  left: calc(var(--gutter) - 28px); top: 0; bottom: 0; width: 1px;
+  background: linear-gradient(180deg, transparent, var(--rule) 8%, var(--rule) 92%, transparent);
+}
+
+.section[data-index]::after {
+  content: "§" attr(data-index);
+  position: absolute;
+  left: calc(var(--gutter) - 28px); top: var(--space-block);
+  transform: translateX(-50%);
+  padding: 6px 0; background: var(--bg);
+  font-family: var(--font-mono); font-size: 0.68rem;
+  letter-spacing: 0.08em; color: var(--rule-strong);
+}
+.section.dark[data-index]::after { background: var(--bg-soft); }
+.planche .section[data-index]::after { background: var(--planche-bg); color: var(--planche-rule-strong); }
+
+/* ─── 5. RYTHME ──────────────────────────────────────────────────── */
+
+.section { padding: var(--space-section) var(--gutter); }
+
+#why-now, #method, #pilot, #qualification-g1, #business-model, #contact {
+  padding-top: var(--space-chapter);
+}
+
+#reuse-first, #reuse-scope, #territoires {
+  padding-top: var(--space-block);
+  padding-bottom: var(--space-block);
+}
+
+.section.dark {
+  background: var(--bg-soft);
+}
+
+.section-label {
+  padding: 0; border: none; background: none; border-radius: 0;
+  font-size: 0.72rem; letter-spacing: 0.08em; color: var(--muted-2);
+}
+
+/* Le lead se distingue des paragraphes de contexte qui suivent */
+.section-intro { max-width: 720px; font-size: 1.22rem; color: var(--text); }
+.section > p { max-width: 680px; line-height: 1.68; }
+.section > p strong { color: var(--text); font-variant-numeric: tabular-nums; }
+
+/* ─── 6. CARTES ──────────────────────────────────────────────────── */
+
+.card {
+  position: relative;
+  border: none; border-radius: var(--radius);
+  background: var(--bg-card);
+  box-shadow: none;
+  transition: background 0.2s ease;
+}
+.card::before, .card::after {
+  content: ""; position: absolute;
+  width: var(--tick); height: var(--tick);
+  border-color: var(--rule-strong); border-style: solid;
+  pointer-events: none; transition: border-color 0.2s ease;
+}
+.card::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+.card::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+.card:hover {
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: none; transform: none; border: none;
+}
+.card:hover::before, .card:hover::after { border-color: var(--statut-mesure); }
+
+.card.highlight { background: rgba(103, 232, 249, 0.045); border: none; }
+.card.highlight::before, .card.highlight::after { border-color: var(--statut-mesure); }
+.card.highlight:hover { background: rgba(103, 232, 249, 0.065); transform: none; box-shadow: none; }
+
+/* ── Dé-cartification par la forme : les blocs qui relevaient du
+   réflexe SaaS perdent leur contenant, sans que le HTML bouge.
+   Réversible en retirant ce bloc. ── */
+#why-now .why-now-grid,
+#partners .grid,
+#founder .grid,
+#progress .grid {
+  gap: 0;
+}
+
+#why-now .why-now-card,
+#partners .card,
+#founder .card,
+#progress .card {
+  background: none !important;
+  padding: 30px 0;
+  border-top: 1px solid var(--rule);
+  border-radius: 0;
+}
+#why-now .why-now-card::before, #why-now .why-now-card::after,
+#partners .card::before, #partners .card::after,
+#founder .card::before, #founder .card::after,
+#progress .card::before, #progress .card::after { display: none; }
+
+#why-now .why-now-card:hover,
+#partners .card:hover,
+#founder .card:hover,
+#progress .card:hover { background: none !important; }
+
+/* ─── 7. TABLEAUX ────────────────────────────────────────────────── */
+
+.needs-table th {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.08em;
+  color: var(--muted-2);
+}
+.needs-table td { font-variant-numeric: tabular-nums; }
+.needs-table td:first-child { font-weight: 500; color: var(--text); }
+.needs-table tbody tr:hover { background: rgba(255, 255, 255, 0.022); }
+
+/* ─── 8. STATUTS ─────────────────────────────────────────────────── */
+
+.status-done, .status-progress {
+  display: inline-block; width: 7px; height: 7px;
+  margin-right: 9px; vertical-align: 0.12em;
+  font-size: 0; line-height: 0; border-radius: 0;
+}
+.status-done { background: var(--statut-obtenu); }
+.status-progress { background: var(--statut-projet); }
+.qf-tools-list .status-done { background: var(--statut-obtenu); }
+.qf-tools-list .status-progress { background: var(--statut-projet); }
+
+/* ─── 9. BOUTONS ─────────────────────────────────────────────────── */
+
+.btn {
+  border-radius: var(--radius);
+  padding: 15px 26px;
+  font-family: var(--font-mono); font-size: 0.78rem; font-weight: 500;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.btn:hover { transform: none; }
+
+.btn.primary {
+  background: none; color: var(--statut-mesure);
+  border: 1px solid var(--statut-mesure); box-shadow: none;
+}
+.btn.primary:hover { background: var(--statut-mesure); color: #04070f; box-shadow: none; }
+
+.btn.secondary { background: none; border: 1px solid var(--rule-strong); color: var(--text); }
+.btn.secondary:hover { border-color: var(--statut-mesure); background: none; }
+
+/* ─── 10. BANDE STATS — 108 kVA monumental ───────────────────────── */
+
+.stats {
+  gap: 0; background: none;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+}
+.stats div {
+  min-height: 0; background: none;
+  border-left: 1px solid var(--rule);
+  padding: 40px 3%;
+}
+.stats div:first-child { border-left: none; }
+.stats div:hover { background: none; transform: none; }
+.stats strong { font-size: 1.6rem; color: var(--text); }
+.stats strong.metric { font-size: 1.6rem; }
+
+/* Le seul chiffre monumental du parcours haut de page */
+.stats div:nth-child(3) strong.metric {
+  font-family: var(--font-display);
+  font-size: clamp(3.4rem, 7vw, 6rem);
+  font-weight: 600; letter-spacing: -0.03em; line-height: 1;
+}
+
+/* ─── 11. ENCART BOUCHAIN — l'arrêt visuel ───────────────────────── */
+
+#why-now .econ-callout {
+  position: relative;
+  margin: 96px 0;
+  padding: 52px 48px;
+  border: none; border-radius: 0;
+  background: rgba(255, 255, 255, 0.018);
+}
+/* Repères d'angle sur les quatre coins : pièce rapportée dans la
+   démonstration, et non élément courant de la section. */
+#why-now .econ-callout::before,
+#why-now .econ-callout::after {
+  content: ""; position: absolute;
+  width: 16px; height: 16px;
+  border-color: var(--rule-strong); border-style: solid;
+  pointer-events: none;
+}
+#why-now .econ-callout::before { top: 0; left: 0; border-width: 1px 0 0 1px; }
+#why-now .econ-callout::after  { bottom: 0; right: 0; border-width: 0 1px 1px 0; }
+
+#why-now .econ-callout .engine-eyebrow {
+  font-family: var(--font-mono); font-size: 0.7rem;
+  letter-spacing: 0.09em; text-transform: uppercase;
+  color: var(--muted-2); margin-bottom: 18px;
+}
+#why-now .econ-callout h3 {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(1.6rem, 3vw, 2.4rem); line-height: 1.1;
+  letter-spacing: -0.015em; margin-bottom: 22px;
+}
+
+/* 400 MW hiérarchisé À L'INTÉRIEUR de sa phrase : la phrase reste
+   une phrase, la valeur n'est jamais extraite de son contexte. */
+#why-now .econ-callout p:nth-of-type(1) strong {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(2rem, 4.5vw, 3.4rem);
+  line-height: 1; letter-spacing: -0.02em;
+  color: var(--text); vertical-align: -0.06em;
+}
+
+/* La conclusion que le lecteur doit emporter */
+#why-now .econ-callout .section-note {
+  margin-top: 26px; padding-left: 20px;
+  border-left: 1px solid var(--rule-strong);
+}
+#why-now .econ-callout .section-note strong:last-of-type {
+  font-size: 1.32rem; color: var(--text); line-height: 1.45;
+}
+
+/* ─── 12. PLANCHE CLAIRE — la rupture unique ─────────────────────── */
+
+.planche { position: relative; background: var(--planche-bg); color: var(--planche-ink); }
+.planche::before, .planche::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 90px;
+  pointer-events: none; z-index: 2;
+}
+.planche::before { top: 0; background: linear-gradient(180deg, var(--bg), transparent); }
+.planche::after { bottom: 0; background: linear-gradient(0deg, var(--bg), transparent); }
+
+.planche .section { background: none; }
+.planche h2, .planche h3, .planche h4, .planche strong { color: var(--planche-ink); }
+.planche p, .planche li, .planche .section > p,
+.planche .section-intro, .planche .small { color: var(--planche-muted); }
+.planche .section-label { color: var(--planche-muted); }
+
+.planche .card { background: var(--planche-bg-2); }
+.planche .card::before, .planche .card::after { border-color: var(--planche-rule-strong); }
+.planche .card:hover { background: #d5dbe5; }
+.planche .card.highlight { background: #d7e3e8; }
+.planche .card p, .planche .card li { color: var(--planche-muted); }
+
+.planche .needs-table th { color: var(--planche-muted); border-color: var(--planche-rule); }
+.planche .needs-table td { color: var(--planche-muted); border-bottom-color: var(--planche-rule); }
+.planche .needs-table td:first-child { color: var(--planche-ink); }
+.planche .needs-table tbody tr:hover { background: rgba(10, 16, 32, 0.035); }
+
+.planche a { color: var(--planche-mesure); }
+.planche :focus-visible { outline-color: var(--planche-mesure); }
+.planche .status-done { background: var(--planche-obtenu); }
+.planche .status-progress { background: var(--planche-projet); }
+.planche .btn.primary { color: var(--planche-mesure); border-color: var(--planche-mesure); }
+.planche .btn.primary:hover { background: var(--planche-mesure); color: var(--planche-bg); }
+.planche .btn.secondary { color: var(--planche-ink); border-color: var(--planche-rule-strong); }
+
+/* Le halo bleuté et le balayage d'impact.css n'ont pas de sens
+   sur fond clair : neutralisés dans la planche uniquement. */
+.planche .proof-frame::before { display: none; }
+.planche .proof-reveal-sweep { display: none; }
+
+/* ~86,5 % — second chiffre monumental, sur fond clair */
+.planche .thermal-headline-stat strong {
+  font-family: var(--font-display); font-weight: 600;
+  font-size: clamp(3.4rem, 9vw, 7rem);
+  line-height: 1; letter-spacing: -0.03em; color: var(--planche-ink);
+}
+
+/* ─── 13. APPARITIONS AU SCROLL ──────────────────────────────────── */
+/* Classes distinctes de .reveal-init, neutralisée en !important par
+   le bloc de sécurité inline d'index.html. */
+
+.releve-pending { opacity: 0; transform: translateY(8px); }
+.releve-in {
+  opacity: 1; transform: none;
+  transition: opacity 0.52s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-anim #g1-sol,
+.hero-anim #g1-volume,
+.hero-anim #g1-toiture {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: releveTrace 1.8s cubic-bezier(0.33, 1, 0.68, 1) forwards;
+}
+.hero-anim #g1-sol      { animation-delay: 0.40s; }
+.hero-anim #g1-volume   { animation-delay: 0.75s; }
+.hero-anim #g1-toiture  { animation-delay: 1.15s; }
+
+@keyframes releveTrace { to { stroke-dashoffset: 0; } }
+
+/* ─── 14. MOBILE ET TABLETTE ─────────────────────────────────────── */
+
+@media (max-width: 1100px) {
+  .section[data-index]::before,
+  .section[data-index]::after { display: none; }
+
+  .hero {
+    grid-template-columns: 1fr;
+    grid-template-areas: "top" "bottom" "g1" "cot";
+  }
+}
+
+@media (max-width: 900px) {
+  .hero { min-height: auto; padding-top: 72px; }
+
+  /* Ordre imposé : la promesse d'abord, G1 ensuite comme preuve.
+     Les zones de grille ci-dessus placent déjà .hero-g1 après le texte.
+     NE JAMAIS introduire de propriété `order` sur .hero-g1, sous
+     aucun prétexte de composition. */
+  .hero-g1 { max-width: 320px; margin-top: 8px; }
+  .hero-g1 svg { opacity: 0.55; }
+
+  .hero-cotation { grid-template-columns: 1fr 1fr; margin-top: 40px; }
+  .hero-cotation .cot { padding: 18px 16px 22px; }
+  .hero-cotation .cot:nth-child(3) { border-left: none; padding-left: 0; }
+
+  #why-now .econ-callout { margin: 64px 0; padding: 34px 26px; }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --space-chapter: 96px;
+    --space-section: 72px;
+    --space-block: 44px;
+  }
+  .stats { grid-template-columns: 1fr; }
+  .stats div { border-left: none; border-top: 1px solid var(--rule); padding: 28px 7%; }
+  .stats div:first-child { border-top: none; }
+  .planche::before, .planche::after { height: 50px; }
+}
+
+/* ─── 15. MOUVEMENT RÉDUIT ───────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .releve-pending { opacity: 1 !important; transform: none !important; }
+  .hero-anim #g1-sol,
+  .hero-anim #g1-volume,
+  .hero-anim #g1-toiture {
+    stroke-dasharray: none !important;
+    stroke-dashoffset: 0 !important;
+    animation: none !important;
+  }
+}
