@@ -1,0 +1,203 @@
+/* =========================================================
+   GPUAtHome — animations.css
+   Fichier additif : aucune règle existante n'est modifiée.
+   Ajoute uniquement des transitions d'apparition discrètes.
+   ========================================================= */
+
+/* Éléments révélés au scroll (fade-in + léger slide-up) */
+.reveal-init {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  will-change: opacity, transform;
+}
+
+.reveal-init.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Étapes de roadmap (.process > div) : glissement horizontal léger
+   plutôt que vertical, pour suggérer une progression dans le temps. */
+.reveal-step {
+  transform: translateX(-14px);
+}
+
+.reveal-step.is-visible {
+  transform: translateX(0);
+}
+
+/* Pastille pulsante discrète sur les badges "🔵 en cours" */
+.pulse-dot {
+  display: inline-block;
+  position: relative;
+  margin-right: 0.35em;
+}
+
+.pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45);
+  animation: gah-pulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes gah-pulse {
+  0%   { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.45); }
+  70%  { box-shadow: 0 0 0 10px rgba(37, 99, 235, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0); }
+}
+
+/* Image du hero : zoom très lent en arrière-plan (Ken Burns discret) */
+.hero-plan img {
+  transition: transform 8s ease;
+  transform: scale(1);
+}
+
+.hero-plan.kenburns img {
+  transform: scale(1.04);
+}
+
+/* Respect des préférences d'accessibilité : on désactive tout si demandé */
+@media (prefers-reduced-motion: reduce) {
+  .reveal-init,
+  .reveal-init.is-visible {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  .pulse-dot::after {
+    animation: none !important;
+  }
+  .hero-plan img,
+  .hero-plan.kenburns img {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* =========================================================
+   V6 — Fluidité de navigation (ajouts additifs uniquement)
+   1) Barre de progression de lecture
+   2) Nav active au scroll (scrollspy)
+   3) Bouton retour en haut
+   4) Bouton "passer l'animation" (Qualification Engine)
+   ========================================================= */
+
+/* --- 1) Barre de progression de lecture --- */
+#gahProgressBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 0%;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  z-index: 200; /* au-dessus du .header (z-index: 100) */
+  transition: width 0.1s linear;
+  pointer-events: none;
+}
+
+/* --- 2) Nav active au scroll ---
+   Réutilise le style de survol déjà défini sur nav a / nav a::after
+   dans style.css (couleur cyan, soulignement dégradé) : la section
+   active a exactement la même apparence que le hover existant. */
+nav a.is-current {
+  color: var(--cyan);
+}
+
+nav a.is-current::after {
+  width: 100%;
+}
+
+/* --- 3) Bouton retour en haut --- */
+#gahBackToTop {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-soft);
+  color: var(--cyan);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  z-index: 90;
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background 0.2s ease, color 0.2s ease;
+}
+
+#gahBackToTop.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#gahBackToTop:hover {
+  background: var(--blue);
+  color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  #gahBackToTop {
+    right: 14px;
+    bottom: 14px;
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* --- 4) Bouton "passer l'animation" --- */
+.qf-engine-wrap {
+  position: relative; /* ancre le bouton skip sans rien déplacer dans le flux */
+}
+
+#gahQfSkip {
+  position: absolute;
+  top: -6px;
+  right: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(-4px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.2s ease, border-color 0.2s ease;
+  z-index: 5;
+}
+
+#gahQfSkip.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+#gahQfSkip:hover {
+  color: var(--cyan);
+  border-color: rgba(103, 232, 249, 0.4);
+}
+
+/* Tout est désactivé si l'utilisateur préfère moins d'animation :
+   la barre de progression et le scrollspy restent utiles (statiques),
+   seul ce qui relève de l'animation est neutralisé. */
+@media (prefers-reduced-motion: reduce) {
+  #gahBackToTop,
+  #gahQfSkip {
+    transition: none !important;
+  }
+}
