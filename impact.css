@@ -1,0 +1,177 @@
+/* =========================================================
+   GPUAtHome — impact.css
+   Fichier additif : aucune règle existante n'est modifiée.
+   1) Chiffres vérifiables en police mono (doctrine .hero-badge--metric
+      généralisée : mono = donnée mesurable, sans-serif = affirmation)
+   2) Cadre de preuve (halo + sweep) pour le graphe thermique,
+      décliné du traitement .campus-photo-frame
+   3) Statuts réalisé / en cours sur la trajectoire des actifs
+   ========================================================= */
+
+/* ─── 1. Chiffres vérifiables en mono ─────────────────────────────
+   Les blocs entièrement numériques sont ciblés par classe de bloc ;
+   les blocs mixtes (bandeau stats, carte hero) via la classe .metric
+   posée uniquement sur les valeurs mesurables. */
+.metric,
+.thermal-headline-stat strong,
+.thermal-headline-split-row strong,
+.thermal-stat strong,
+.qf-progress-legend strong {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+/* Le mono est légèrement plus large que Space Grotesk : on compense
+   d'un cran sur le bandeau stats pour préserver le nowrap existant.
+   Note : theme-releve.css, chargé après, ramène ces valeurs à un corps
+   unique. Les deux règles ci-dessous ne s'appliquent donc que si le
+   thème « Le relevé » est retiré — elles sont conservées à ce titre. */
+.stats strong.metric {
+  font-size: 1.82rem;
+}
+
+@media (max-width: 640px) {
+  .stats strong.metric {
+    font-size: 1.55rem;
+  }
+}
+
+/* ─── 2. Cadre de preuve — graphe thermique ───────────────────────
+   Même recette visuelle que le campus (halo bleuté pulsé + balayage
+   lumineux au reveal), en classes autonomes pour rester additif. */
+.proof-frame {
+  position: relative;
+  isolation: isolate;
+}
+
+.proof-frame::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: 0;
+  border-radius: 20px;
+  background:
+    radial-gradient(60% 60% at 30% 25%, rgba(56, 189, 248, 0.28), transparent 70%),
+    radial-gradient(50% 50% at 75% 70%, rgba(129, 140, 248, 0.22), transparent 70%);
+  filter: blur(28px);
+  opacity: 0.55;
+  pointer-events: none;
+  will-change: transform, opacity;
+  animation: proofHaloPulse 7s ease-in-out infinite;
+}
+
+@keyframes proofHaloPulse {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.04); }
+}
+
+.proof-frame img,
+.proof-frame figcaption {
+  position: relative;
+  z-index: 1;
+}
+
+.proof-reveal-sweep {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  border-radius: 18px; /* aligné sur .thermal-figure img */
+  overflow: hidden;
+}
+
+/* La <figure> englobe l'image ET sa légende : sans recadrage, le
+   balayage déborderait sous le graphe. On le cale sur les dimensions
+   de l'image (16/9, min-height 260px, cf. .thermal-figure img). */
+.thermal-figure .proof-reveal-sweep {
+  bottom: auto;
+  aspect-ratio: 16 / 9;
+  min-height: 260px;
+}
+
+.proof-reveal-sweep::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(100deg,
+    transparent 0%,
+    rgba(56, 189, 248, 0.35) 45%,
+    rgba(255, 255, 255, 0.55) 50%,
+    rgba(56, 189, 248, 0.35) 55%,
+    transparent 100%);
+  transform: translateX(-120%);
+}
+
+.proof-frame.is-visible .proof-reveal-sweep::after {
+  animation: proofSweep 1.4s ease-out 0.15s 1;
+}
+
+@keyframes proofSweep {
+  0%   { transform: translateX(-120%); }
+  100% { transform: translateX(120%); }
+}
+
+/* ─── 3. Trajectoire des actifs — statuts ─────────────────────────
+   Réalisé : coche verte (palette --green déjà utilisée par la
+   roadmap et les status-done). En cours : pastille ambre (--amber),
+   même code que la roadmap. Les étapes futures restent neutres. */
+.flow-status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 19px;
+  height: 19px;
+  border-radius: 50%;
+  margin-right: 9px;
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: 2px;
+  flex-shrink: 0;
+}
+
+.flow-status--done {
+  color: var(--green, #4ade80);
+  background: rgba(74, 222, 128, 0.13);
+  border: 1px solid rgba(74, 222, 128, 0.5);
+  box-shadow: 0 0 10px rgba(74, 222, 128, 0.25);
+}
+
+.flow-status--active {
+  background: var(--amber, #fbbf24);
+  border: 1px solid var(--amber, #fbbf24);
+  width: 11px;
+  height: 11px;
+  margin-right: 11px;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.14), 0 0 12px rgba(251, 191, 36, 0.45);
+}
+
+/* La bordure des étapes réalisées glisse discrètement vers le vert,
+   sans concurrencer l'accent cyan des étapes clés. */
+.flow-step--done {
+  border-color: rgba(74, 222, 128, 0.32);
+}
+
+/* Titres et labels de la trajectoire : centrage avec la pastille */
+.flow-step .flow-title,
+.flow-step .flow-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ─── Accessibilité : tout est neutralisé si demandé ──────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .proof-frame::before {
+    animation: none;
+  }
+  .proof-frame.is-visible .proof-reveal-sweep::after {
+    animation: none;
+    display: none;
+  }
+  .flow-status--active {
+    box-shadow: none;
+  }
+}
