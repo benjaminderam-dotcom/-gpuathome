@@ -1,0 +1,358 @@
+/* ═══════════════════════════════════════════════════════════════════
+   HEADER — NAVIGATION (burger, panneau "Plus", scrim, CTA)
+
+   Bloc manquant : index.html et le script inline (nav mobile + menu
+   "Plus") utilisent .nav-toggle, #siteNav.is-open, .nav-more.is-open,
+   .nav-scrim.is-open, .nav-mobile-cta, .header-cta et body.nav-open —
+   aucune de ces classes n'était stylée dans style.css ni animations.css.
+
+   Breakpoint 1280px : valeur imposée par le script inline
+   (window.innerWidth > 1280 → closeNav) et par les commentaires
+   scroll-margin-top existants ("header sur une ligne : logo + bouton
+   menu").
+
+   À COLLER EN FIN DE style.css — la position finale est nécessaire
+   pour neutraliser le .lang-switcher{order:-1} du bloc 760px, écrit
+   pour l'ancienne nav en colonne.
+════════════════════════════════════════════════════════════════════ */
+
+/* ─── DESKTOP (> 1280px) ──────────────────────────────────────────── */
+
+.nav-toggle,
+.nav-scrim,
+.nav-mobile-cta {
+  display: none;
+}
+
+/* ── Menu déroulant "Plus" ── */
+
+.nav-more {
+  position: relative;
+}
+
+.nav-more-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.nav-more-toggle::after {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.22s ease;
+}
+
+.nav-more-toggle:hover,
+.nav-more.is-open .nav-more-toggle {
+  color: var(--cyan);
+}
+
+.nav-more.is-open .nav-more-toggle::after {
+  transform: translateY(1px) rotate(-135deg);
+}
+
+.nav-more-panel {
+  position: absolute;
+  top: calc(100% + 16px);
+  right: 0;
+  z-index: 200;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 232px;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(5, 9, 20, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--shadow);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.22s ease, transform 0.22s ease, visibility 0.22s;
+}
+
+.nav-more.is-open .nav-more-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.nav-more-panel a {
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+/* L'underline animé de nav a::after n'a pas de sens dans un panneau */
+.nav-more-panel a::after {
+  display: none;
+}
+
+.nav-more-panel a:hover {
+  background: rgba(103, 232, 249, 0.08);
+  color: var(--cyan);
+}
+
+/* ─── TABLETTE + MOBILE (≤ 1280px) ────────────────────────────────── */
+
+@media (max-width: 1280px) {
+
+  .header {
+    gap: 14px;
+  }
+
+  /* Ordre visuel : logo · langue · burger.
+     Nécessaire car le switcher est injecté par lang.js avant .header-cta,
+     donc après le burger dans l'ordre du DOM. */
+  .brand-logo { order: 1; }
+  .lang-switcher { order: 2; margin-left: auto; }
+  .nav-toggle { order: 3; }
+
+  .header-cta {
+    display: none;
+  }
+
+  /* ── Bouton burger ── */
+
+  .nav-toggle {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    flex: 0 0 auto;
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    min-height: 46px;
+    padding: 0;
+    -webkit-appearance: none;
+    appearance: none;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    z-index: 120;
+    transition: border-color 0.2s ease, background 0.2s ease;
+  }
+
+  .nav-toggle:hover {
+    border-color: var(--border-strong);
+    background: rgba(103, 232, 249, 0.07);
+  }
+
+  .nav-toggle span {
+    display: block;
+    width: 21px;
+    height: 2px;
+    min-height: 2px;
+    flex: 0 0 2px;
+    margin: 0;
+    border-radius: 2px;
+    background-color: var(--text);
+    transition: transform 0.26s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.2s ease;
+  }
+
+  .nav-toggle[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+
+  /* ── Panneau de navigation latéral ── */
+
+  #siteNav {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 110;
+    width: min(86vw, 340px);
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 2px;
+    padding: 92px 24px 36px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: rgba(5, 9, 20, 0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-left: 1px solid var(--border);
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.45);
+    transform: translateX(100%);
+    visibility: hidden;
+    transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.32s;
+  }
+
+  #siteNav.is-open {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  #siteNav a {
+    padding: 13px 4px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(120, 170, 255, 0.08);
+  }
+
+  #siteNav a::after {
+    display: none;
+  }
+
+  /* ── "Plus" : accordéon inline, plus de dropdown flottant ── */
+
+  .nav-more {
+    position: static;
+  }
+
+  .nav-more-toggle {
+    width: 100%;
+    justify-content: space-between;
+    padding: 13px 4px;
+    font-size: 1rem;
+    border-bottom: 1px solid rgba(120, 170, 255, 0.08);
+  }
+
+  .nav-more-panel {
+    position: static;
+    display: none;
+    min-width: 0;
+    padding: 4px 0 4px 14px;
+    border: none;
+    border-radius: 0;
+    background: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    box-shadow: none;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+  }
+
+  .nav-more.is-open .nav-more-panel {
+    display: flex;
+  }
+
+  .nav-more-panel a {
+    padding: 10px 8px;
+    font-size: 0.92rem;
+    border-bottom: none;
+  }
+
+  /* ── CTA dans le panneau ── */
+
+  .nav-mobile-cta {
+    display: inline-flex;
+    width: 100%;
+    margin-top: 22px;
+  }
+
+  /* ── Voile d'arrière-plan ── */
+
+  .nav-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 105;
+    background: rgba(2, 6, 15, 0.62);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+
+  .nav-scrim.is-open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  body.nav-open {
+    overflow: hidden;
+  }
+}
+
+/* ─── PETITS ÉCRANS (≤ 760px) — TENUE DE LA LIGNE DU HEADER ──────────
+   Sur iPhone, .brand-logo et .lang-switcher portent flex-shrink:0 dans
+   style.css. Additionnés au burger, les trois dépassent la largeur
+   disponible : le header déborde et body{overflow-x:hidden} découpe le
+   dernier élément — le burger, rendu inaccessible.
+   On rend le logo compressible et on resserre le switcher.
+════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 760px) {
+
+  .header {
+    gap: 10px;
+    flex-wrap: nowrap;
+  }
+
+  /* Le logo devient l'élément qui cède : il se contente de la place
+     restante une fois le burger et le switcher servis. */
+  .brand-logo {
+    flex: 0 1 auto;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  .brand-logo img {
+    height: auto !important;
+    max-height: 52px;
+    max-width: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .lang-switcher {
+    flex: 0 0 auto;
+    gap: 3px;
+    margin-left: auto;
+  }
+
+  .lang-btn {
+    padding: 5px 9px;
+    font-size: 0.72rem;
+  }
+
+  /* Le burger n'est jamais comprimé ni repoussé : il est servi en premier. */
+  .nav-toggle {
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+/* ─── Accessibilité ───────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-more-panel,
+  .nav-toggle span,
+  .nav-more-toggle::after,
+  #siteNav,
+  .nav-scrim {
+    transition: none !important;
+  }
+}
