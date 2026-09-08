@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+
+<html lang="fr">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GPUAtHome Qualification Framework V2 | GPUAtHome</title>
+<meta content="Le référentiel GPUAtHome Qualification Framework V2 : critères techniques, hiérarchie des preuves et doctrine de qualification sous conditions, sans divulgation de la grille interne." name="description"/>
+<meta content="website" property="og:type"/>
+<meta content="https://gpuathome.com/qualification-framework.html" property="og:url"/>
+<meta content="GPUAtHome Qualification Framework V2 | GPUAtHome" property="og:title"/>
+<meta content="Un référentiel technique propriétaire appliqué par GPUAtHome Manager V2 : données, preuves, critères éliminatoires et conditions de déploiement." property="og:description"/>
+<meta content="https://gpuathome.com/logo.png" property="og:image"/>
+<link href="logo.png" rel="icon" type="image/png"/>
+<link href="logo.png" rel="apple-touch-icon"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Sans+Condensed:wght@500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="style.css?v=80" rel="stylesheet"/>
+<link href="animations.css?v=2" rel="stylesheet"/>
+<link href="qf-page.css?v=2" rel="stylesheet"/>
+<!-- Header : meme feuille et meme ordre que index.html, afin que les deux
+     pages servent le meme composant. qf-page.css contient une copie plus
+     ancienne des regles de navigation ; header-nav.css etant charge apres,
+     c'est lui qui prime, exactement comme sur la page d'accueil.
+     Retirer cette seule ligne restaure l'etat precedent. -->
+<link href="header-nav.css?v=4" rel="stylesheet"/>
+<!-- Surcouche « Le relevé ». Chargee en dernier : la retirer restaure
+     integralement l'apparence precedente pour toute la partie CSS.
+     Versions alignees sur index.html (style v80, animations v2, theme v10)
+     afin que les deux pages ne puissent pas servir deux etats de cache
+     differents du meme theme. -->
+<link href="theme-releve.css?v=10" rel="stylesheet"/>
+<!-- Privacy-friendly analytics by Plausible -->
+<script>window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};
+  if (localStorage.plausible_ignore !== 'true') {
+    plausible.init();
+    var pa=document.createElement('script');
+    pa.async=true;
+    pa.src='https://plausible.io/js/pa-NQ81xyQ6t1IffKp8BdThk.js';
+    document.head.appendChild(pa);
+  }
+</script>
+</head>
+<body>
+<header class="header">
+<a aria-label="GPUAtHome - Accueil" class="brand-logo" href="index.html">
+<img alt="GPUAtHome - Infrastructure IA distribuée" src="logo.png"/>
+</a>
+<button aria-controls="siteNav" aria-expanded="false" aria-label="Ouvrir le menu" class="nav-toggle" id="navToggle" type="button">
+<span>
+</span>
+<span>
+</span>
+<span>
+</span>
+</button>
+<nav id="siteNav">
+<a data-en="Solution" href="index.html#parcours">Solution</a>
+<a data-en="Why now" href="index.html#why-now">Pourquoi maintenant</a>
+<a data-en="Method" href="index.html#method">Méthode</a>
+<a data-en="G1 / Sepmeries" href="index.html#g1">G1 / Sepmeries</a>
+<a data-en="Qualification" href="index.html#qualification">Qualification</a>
+<a class="is-current" data-en="Framework" href="qualification-framework.html">Référentiel</a>
+<a data-en="Model &amp; Vision" href="index.html#model-vision">Modèle &amp; Vision</a>
+<a data-en="Contact" href="index.html#contact">Contact</a>
+<div class="nav-more" id="navMore">
+<button aria-expanded="false" class="nav-more-toggle" data-en="More" id="navMoreToggle" type="button">Plus</button>
+<div class="nav-more-panel">
+<a data-en="Progress" href="index.html#progress">Avancement</a>
+<a data-en="Ecosystem" href="index.html#ecosystem">Écosystème</a>
+<a data-en="Documentation" href="index.html#documentation">Documentation</a>
+</div>
+</div>
+</nav>
+<div class="nav-scrim" id="navScrim">
+</div>
+</header>
+<main>
+<section class="section" id="top">
+<p class="section-label" data-en="GPUAtHome Qualification Framework V2">GPUAtHome Qualification Framework V2</p>
+<h1 data-en="A framework that separates site qualification from deployment conditions">Un référentiel qui distingue qualification du site et conditions de déploiement</h1>
+<p class="section-intro" data-en="GPUAtHome Qualification Framework V2 determines whether an existing building can credibly host AI compute. It separates intrinsic site compatibility and disqualifying conditions from parameters that depend on the future operator, equipment and workload.">GPUAtHome Qualification Framework V2 vise à déterminer si un bâtiment existant peut accueillir de façon crédible du calcul IA. Il distingue la compatibilité intrinsèque du site et les critères éliminatoires des paramètres qui dépendent du futur opérateur, de ses équipements et de ses workloads.</p>
+</section>
+<section class="section dark" id="referentiel">
+<p class="section-label" data-en="The framework">Le référentiel</p>
+<h2 data-en="One verdict, with explicit deployment conditions where required — no score, no counter">Un verdict, avec conditions de déploiement explicites si nécessaire — ni score, ni compteur</h2>
+<div class="qf-referentiel-card reveal-item">
+<ul class="qf-referentiel-list"><li data-en="A framework that distinguishes what disqualifies an asset from what calls for a study or an expense">Un référentiel qui distingue ce qui disqualifie un actif de ce qui appelle une étude ou une dépense</li><li data-en="Upgrade cost tracked separately, as part of the improvement path and not of the technical qualification">Le coût de mise à niveau suivi séparément, dans le chemin d’amélioration et non dans la qualification technique</li><li data-en="Evidence validity and traceability rules">Règles de validité et de traçabilité des preuves</li><li data-en="Disqualifying criteria assessed before a positive qualification verdict">Critères éliminatoires vérifiés avant tout verdict positif de qualification</li><li data-en="Operator-dependent parameters treated as deployment conditions, not automatic disqualifiers">Paramètres dépendant de l’opérateur traités comme conditions de déploiement, et non comme motifs automatiques de non-qualification</li><li data-en="No percentage score, no synthetic grade and no published criteria count: a counter is not a verdict">Ni score en pourcentage, ni note synthétique, ni décompte de critères publié : un compteur n’est pas un verdict</li></ul>
+</div>
+<p data-en="The framework distinguishes criteria whose failure disqualifies the asset from those whose failure calls for a study or an expense. Only the former prevent a qualification verdict. This distinction is carried by the framework itself, independently of any assessed site." style="max-width:820px;margin-top:22px;">Le référentiel distingue les critères dont l’échec disqualifie l’actif de ceux dont l’échec appelle une étude ou une dépense. Seuls les premiers empêchent un verdict de qualification. Cette distinction est portée par le référentiel lui-même, indépendamment de tout site instruit.</p>
+<p class="small" data-en="The detailed grid, thresholds, weightings and decision rules are proprietary. This public page sets out the doctrine, the evidence hierarchy and the decision process without disclosing the full internal framework." style="max-width:820px;margin-top:22px;">La grille détaillée, les seuils, les pondérations et les règles de décision sont propriétaires. Cette page publique expose la doctrine, la hiérarchie des preuves et le processus de décision sans publier l’intégralité du référentiel interne.</p>
+</section>
+<section class="section" id="manager">
+<p class="section-label" data-en="GPUAtHome Manager V2">GPUAtHome Manager V2</p>
+<h2 data-en="The software applies the framework and preserves traceability">Le logiciel applique le référentiel et conserve la traçabilité</h2>
+<div class="grid two">
+<article class="card highlight reveal-item"><h3 data-en="Functional development complete">Développement fonctionnel terminé</h3><p data-en="GPUAtHome Manager V2 structures site data, evidence, criterion states, blocking conditions and reportable outputs. The software does not bypass the framework: it applies its rules.">GPUAtHome Manager V2 structure les données du site, les preuves, l’état des critères, les conditions bloquantes et les sorties reportables. Le logiciel ne contourne pas le référentiel : il en applique les règles.</p></article>
+<article class="card reveal-item"><h3 data-en="Decision discipline">Discipline de décision</h3><p data-en="Every piece of evidence is dated, sourced and tied to the criterion it establishes. A disqualifying criterion is resolved before any positive verdict. Parameters that are defined with the operator are stated as explicit deployment conditions.">Chaque preuve est datée, sourcée et rattachée au critère qu’elle établit. Un critère éliminatoire se résout avant tout verdict positif. Les paramètres qui se définissent avec l’opérateur sont énoncés comme conditions de déploiement explicites.</p></article>
+</div>
+</section>
+<section class="section dark" id="g1-v2">
+<p class="section-label" data-en="Pilot site">Site pilote</p>
+<h2 data-en="A single document stands between G1 and its qualification">Un seul document sépare G1 de sa qualification</h2>
+<div class="stats reveal-item">
+<div><strong data-en="Technical assessment complete">Instruction technique finalisée</strong><span data-en="land status and site risks verified, with supporting documents">statut foncier et risques du site vérifiés, pièces à l’appui</span></div>
+<div><strong data-en="CUb in progress">CUb en cours</strong><span data-en="the single outstanding document">la seule pièce en attente</span></div>
+</div>
+<p data-en="The technical assessment of G1 is complete: building, energy, thermal behaviour, connectivity, land status, risks and immediate environment are documented by dated evidence. The disqualifying criteria relating to land status and to natural and neighbourhood risk are verified and satisfied. An operational planning certificate (CUb) is underway to formally secure the compatibility of the intended use. Until that document is obtained, no qualification verdict is issued." style="max-width:840px;margin-top:26px;">
+L’instruction technique de G1 est achevée : bâti, énergie, comportement thermique, connectivité, statut foncier, risques et environnement immédiat sont documentés par des preuves datées. Les critères éliminatoires relatifs au foncier et au risque naturel et de voisinage sont vérifiés et satisfaits. Certificat d’urbanisme opérationnel (CUb) en cours afin de sécuriser formellement la compatibilité de l’usage projeté. Tant que cette pièce n’est pas obtenue, aucun verdict de qualification n’est prononcé.
+</p>
+<div class="grid two" style="margin-top:34px;">
+<article class="card highlight reveal-item">
+<h3 data-en="What the assessment establishes">Ce que l’instruction établit</h3>
+<p data-en="The site is ready to enter an operator deployment process: its characteristics and evidence form a technically defensible basis for that discussion. The admissible floor loading is not characterised: its compatibility will be assessed against the mass, footprint and load distribution of the equipment selected, before installation.">
+      Le site est prêt à entrer dans un processus de déploiement avec un opérateur : ses caractéristiques et ses preuves constituent une base techniquement défendable pour cet échange. La charge admissible du sol n’est pas caractérisée : sa compatibilité sera validée avec la masse, l’emprise et la répartition des charges des équipements retenus, avant implantation.
+    </p>
+</article>
+<article class="card reveal-item">
+<h3 data-en="What remains operator-specific">Ce qui relève du scénario opérateur</h3>
+<p data-en="Usable IT power, rack density, cooling, heat rejection, connectivity SLA, continuity, acoustic performance and availability depend on the equipment and workload selected. They belong to the operator matching exercise and are finalised before deployment.">
+      Puissance IT exploitable, densité par baie, refroidissement, rejet thermique, SLA réseau, continuité, acoustique et disponibilité dépendent des équipements et des workloads retenus. Ils relèvent naturellement de l’appariement avec l’opérateur et sont finalisés avant déploiement.
+    </p>
+</article>
+</div>
+<p class="small" data-en="The detailed grid, thresholds and internal decision rules are proprietary." style="margin-top:22px;">
+La grille détaillée, les seuils et les règles internes de décision sont propriétaires.
+</p>
+</section>
+<section class="section" id="evidence">
+<p class="section-label" data-en="Evidence">Preuves</p>
+<h2 data-en="Qualification turns dispersed information into defensible evidence">La qualification transforme des informations dispersées en preuves défendables</h2>
+<p data-en="From an available building to a technically defensible asset. GPUAtHome consolidates measurements, documents and checks into an evidence base that an operator can actually use. The owner keeps the asset; GPUAtHome carries the assessment." style="max-width:840px;margin:0 0 24px;">D’un bâtiment disponible à un actif techniquement défendable. GPUAtHome consolide mesures, documents et vérifications dans un corpus de preuves réellement exploitable par un opérateur. Le propriétaire garde son actif ; GPUAtHome porte l’instruction.</p><div class="qf-referentiel-card reveal-item"><ul class="qf-referentiel-list"><li data-en="External documented evidence: offers, contracts, permits, third-party documents">Preuve documentaire externe : offres, contrats, autorisations, pièces tierces</li><li data-en="Instrumented on-site measurement: time-stamped data from a defined campaign">Mesure instrumentée sur site : données horodatées issues d’une campagne définie</li><li data-en="Calculated result: derived only from validated inputs and approved rules">Résultat calculé : dérivé uniquement d’entrées validées et de règles approuvées</li><li data-en="Declared or projected information remains explicitly identified as such">Une information déclarative ou projetée reste explicitement identifiée comme telle</li></ul></div>
+</section>
+<section class="section dark" id="vision-qf">
+<p class="section-label" data-en="Reproducibility">Reproductibilité</p>
+<div class="qf-vision-block reveal-item"><p data-en="G1 is the first real application of the framework. The next step applies the same doctrine to third-party buildings, at the same evidence standard, to demonstrate that the method is transferable.">G1 constitue la première application réelle du référentiel. L’étape suivante applique la même doctrine à des bâtiments tiers, au même standard de preuve, pour démontrer la transférabilité de la méthode.</p></div>
+<p style="margin-top:28px;"><a class="btn primary" data-en="Back to the G1 qualification" href="index.html#qualification">← Revenir à la qualification de G1</a></p>
+</section>
+</main>
+<footer>
+<p data-en="© 2026 GPUAtHome — Pilot phase project · Sepmeries, Hauts-de-France">© 2026 GPUAtHome — Projet en phase pilote · Sepmeries, Hauts-de-France</p>
+<nav aria-label="Liens de pied de page" class="footer-links">
+<a data-en="Contact" href="index.html#contact">Contact</a>
+</nav>
+<p class="small" data-en="Site version: V2 — September 2026">Version site : V2 — Septembre 2026</p>
+</footer>
+<script defer="" src="lang.js"></script>
+<script>
+/* ── Navigation : panneau mobile + menu "Plus" ──
+   Copie conforme du bloc equivalent d'index.html. Cette page ne charge pas
+   animations.js ; le comportement du header doit donc etre embarque ici,
+   sans quoi le bouton burger reste inerte. */
+(function () {
+  'use strict';
+  var toggle = document.getElementById('navToggle');
+  var nav = document.getElementById('siteNav');
+  var scrim = document.getElementById('navScrim');
+  var more = document.getElementById('navMore');
+  var moreToggle = document.getElementById('navMoreToggle');
+
+  function closeNav() {
+    if (!nav) return;
+    nav.classList.remove('is-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'false');
+    if (scrim) scrim.classList.remove('is-open');
+    document.body.classList.remove('nav-open');
+  }
+
+  function openNav() {
+    if (!nav) return;
+    nav.classList.add('is-open');
+    if (toggle) toggle.setAttribute('aria-expanded', 'true');
+    if (scrim) scrim.classList.add('is-open');
+    document.body.classList.add('nav-open');
+  }
+
+  if (toggle && nav) {
+    toggle.addEventListener('click', function () {
+      var isOpen = nav.classList.contains('is-open');
+      if (isOpen) { closeNav(); } else { openNav(); }
+    });
+  }
+
+  if (scrim) scrim.addEventListener('click', closeNav);
+
+  if (nav) {
+    nav.querySelectorAll('a').forEach(function (a) {
+      a.addEventListener('click', closeNav);
+    });
+  }
+
+  if (more && moreToggle) {
+    moreToggle.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = more.classList.contains('is-open');
+      more.classList.toggle('is-open', !isOpen);
+      moreToggle.setAttribute('aria-expanded', String(!isOpen));
+    });
+    document.addEventListener('click', function (e) {
+      if (!more.contains(e.target)) {
+        more.classList.remove('is-open');
+        moreToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeNav();
+      if (more) more.classList.remove('is-open');
+    }
+  });
+
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 1280) closeNav();
+  });
+})();
+</script>
+<script>
+/* Scroll reveal minimal, identique en principe à celui d'index.html,
+   pour les .reveal-item de cette page (pas de dépendance à animations.js
+   qui contient des sélecteurs spécifiques à la page d'accueil). */
+(function () {
+  'use strict';
+  var items = document.querySelectorAll('.reveal-item');
+  if (!items.length) return;
+  if (!('IntersectionObserver' in window)) {
+    items.forEach(function (el) { el.classList.add('is-visible'); });
+    return;
+  }
+  var revealed = new WeakSet();
+  function reveal(el) {
+    if (revealed.has(el)) return;
+    revealed.add(el);
+    el.classList.add('is-visible');
+  }
+  var observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) { reveal(entry.target); observer.unobserve(entry.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  items.forEach(function (el) { observer.observe(el); });
+  setTimeout(function () {
+    items.forEach(function (el) { if (!revealed.has(el)) reveal(el); });
+  }, 1800);
+})();
+</script>
+</body>
+</html>
